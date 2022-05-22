@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_value/services/services.export.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: 'ETH Address',
+        hintStyle: GoogleFonts.quicksand(),
         enabledBorder: getBorder(),
         border: getBorder(),
         errorBorder: getBorder(),

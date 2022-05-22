@@ -80,7 +80,7 @@ class NFTWidget extends StatelessWidget {
                   width: 40,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: nft.ignored ? Colors.green : Colors.red,
+                    color: nft.ignored ? Constants.successColor : Constants.errorColor,
                   ),
                   child: Center(
                     child: Text(

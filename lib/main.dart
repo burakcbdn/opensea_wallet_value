@@ -18,6 +18,7 @@ class _WalletValueAppState extends State<WalletValueApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Opensea Wallet Value',
       home: HomePage(),
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,

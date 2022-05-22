@@ -50,9 +50,7 @@ class _SearchBoxState extends State<SearchBox> {
                 child: widget.type == ScreenType.MOBILE
                     ? Text(
                         'Calculate',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: Constants.buttonText,
                       )
                     : Icon(
                         Icons.chevron_right,
@@ -62,18 +60,16 @@ class _SearchBoxState extends State<SearchBox> {
               ),
             ),
             onPressed: () async {
-              RegExp ethRegex = RegExp(
-                r'/^0x[a-fA-F0-9]{40}$/',
-                caseSensitive: false,
-                multiLine: false,
-              );
-
               String address = controller.text.trim();
 
               bool addressRes = await OpenseaAPI.validateAddress(address);
 
               if (!addressRes) {
-                print("invalid address");
+                showSnackbar(
+                  context: context,
+                  msg: 'Invalid address',
+                  color: Constants.errorColor,
+                );
                 return;
               }
 

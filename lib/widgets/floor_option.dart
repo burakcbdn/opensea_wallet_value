@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_value/models/models.export.dart';
 import 'package:wallet_value/services/services.export.dart';
 
@@ -31,9 +32,11 @@ class FloorOptionWidget extends StatelessWidget {
           child: Center(
             child: Text(
               floorOption.title,
-              style: TextStyle(
-                color: floorOption.selected ? Colors.white : Constants.primaryColor,
-                fontSize: 13,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                  color: floorOption.selected ? Colors.white : Constants.primaryColor,
+                  fontSize: 13,
+                ),
               ),
             ),
           ),
