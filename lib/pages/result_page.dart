@@ -58,6 +58,14 @@ class _ResultPageState extends State<ResultPage> {
       calculateTotalValue();
       loading = false;
     });
+
+    Analytics.logEvent(name: 'value_check', paramaters: {
+      'address': widget.ethAddress,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'total_value': totalValue,
+      'nft_count': userNFTs!.length,
+      'collections': userNFTs!.map((e) => e.title.toString()).toList(),
+    });
   }
 
   @override
@@ -152,6 +160,14 @@ class _ResultPageState extends State<ResultPage> {
                               setState(() {
                                 calculateTotalValue();
                               });
+
+                              if (nft.ignored) {
+                                Analytics.logEvent(name: 'ignore', paramaters: {
+                                  'address': widget.ethAddress,
+                                  'timestamp': DateTime.now().millisecondsSinceEpoch,
+                                  'collection': nft.title,
+                                });
+                              }
                             },
                           );
                         }).toList(),

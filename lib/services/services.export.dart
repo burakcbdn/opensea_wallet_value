@@ -3,3 +3,4 @@ export 'enums.dart';
 export 'utils.dart';
 export 'opensea_api.dart';
 export 'show_snackbar.dart';
+export 'analytics.dart';

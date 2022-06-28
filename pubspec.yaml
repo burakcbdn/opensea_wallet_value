@@ -37,6 +37,8 @@ dependencies:
   http: ^0.13.4
   url_strategy: ^0.2.0
   google_fonts: ^3.0.0
+  firebase_core: ^1.17.0
+  firebase_analytics: ^9.1.8
 
 dev_dependencies:
   flutter_test:

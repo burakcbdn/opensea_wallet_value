@@ -70,10 +70,15 @@ class _SearchBoxState extends State<SearchBox> {
                   msg: 'Invalid address',
                   color: Constants.errorColor,
                 );
+                Analytics.logEvent(name: 'invalid_address', paramaters: {
+                  'address': address,
+                  'timestamp': DateTime.now().millisecondsSinceEpoch,
+                });
                 return;
               }
 
               if (!mounted) return;
+
 
               Navigator.push(
                 context,
