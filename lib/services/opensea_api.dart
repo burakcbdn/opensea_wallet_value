@@ -21,34 +21,56 @@ class OpenseaAPI {
 
     if (response.statusCode == 200) {
       List collections = jsonDecode(response.body);
-      List<UserNFT> userNFTs = collections.map<UserNFT>((collectionData) {
+
+      List<UserNFT> userNFTs = [];
+
+      for (var collectionData in collections) {
         // Map<String, dynamic> contractData = collectionData['primary_asset_contracts'][0];
         Map<String, dynamic> collectionStats = collectionData['stats'];
-  
-        return UserNFT(
-            title: collectionData['name'] ?? '',
-            contractAddress: '',
-            externalURL: collectionData['external_link'] ?? '',
-            imageURL: collectionData['image_url'] ?? '',
-            dayAverage1: (collectionStats['one_day_average_price'] / 1.0) ?? 0.0,
-            dayAverage7: (collectionStats['seven_day_average_price'] / 1.0) ?? 0.0,
-            dayAverage30: (collectionStats['thirty_day_average_price'] / 1.0) ?? 0.0,
-            floorPrice: (collectionStats['floor_price'] / 1.0) ?? 0.0,
-            ownedNFTCount: collectionData['owned_asset_count'] ?? 0,
-            selectedPriceOption: Constants.priceOptions[0]);
-      }).toList();
+
+        //https://api.opensea.io/api/v1/collection/{collection_slug}
+
+        String slug = collectionData['slug'];
+
+        http.Response fDataResponse = await http.get(Uri.parse('https://api.opensea.io/api/v1/collection/$slug'));
+
+        double? floorPrice;
+
+        if (fDataResponse.statusCode == 200) {
+          Map<String, dynamic> fData = jsonDecode(fDataResponse.body);
+
+          floorPrice = fData['collection']['stats']['floor_price'];
+        }
+
+        var nf = UserNFT(
+          title: collectionData['name'] ?? '',
+          contractAddress: '',
+          externalURL: collectionData['external_link'] ?? '',
+          imageURL: collectionData['image_url'] ?? '',
+          dayAverage1: (collectionStats['one_day_average_price'] / 1.0) ?? 0.0,
+          dayAverage7: (collectionStats['seven_day_average_price'] / 1.0) ?? 0.0,
+          dayAverage30: (collectionStats['thirty_day_average_price'] / 1.0) ?? 0.0,
+          floorPrice: (floorPrice ?? 0.0) / 1.0,
+          ownedNFTCount: collectionData['owned_asset_count'] ?? 0,
+          selectedPriceOption: Constants.priceOptions[0],
+        );
+
+        userNFTs.add(nf);
+      }
 
       return userNFTs;
     } else {
-
       return null;
     }
   }
 
   static Future<bool> validateAddress(String ethAddress) async {
-    http.Response response = await http.post(Uri.parse('https://api.walletcollector.xyz/validateAddress?address=$ethAddress'), body: {
-      'address': ethAddress,
-    });
+    http.Response response = await http.post(
+      Uri.parse('https://www.walletcollector.xyz/api/validateAddress?address=$ethAddress&network=ETH'),
+      body: {
+        'address': ethAddress,
+      },
+    );
 
     if (response.statusCode == 200) {
       bool result = jsonDecode(response.body)['result'];

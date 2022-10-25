@@ -1,3 +1,4 @@
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wallet_value/pages/result_page.dart';
@@ -62,7 +63,7 @@ class _SearchBoxState extends State<SearchBox> {
             onPressed: () async {
               String address = controller.text.trim();
 
-              bool addressRes = await OpenseaAPI.validateAddress(address);
+              bool addressRes = isValidEthereumAddress(address);
 
               if (!addressRes) {
                 showSnackbar(
@@ -78,7 +79,6 @@ class _SearchBoxState extends State<SearchBox> {
               }
 
               if (!mounted) return;
-
 
               Navigator.push(
                 context,
